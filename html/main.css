@@ -1,81 +1,390 @@
-#fob {
-  position: absolute;
-  bottom: 50px;
-  right: 10rem;
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.key-image {
-  width: 200px;
-  z-index: 1;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: transparent;
+    overflow: hidden;
+    user-select: none;
 }
 
-.btn {
-  z-index: 10;
-  position: absolute;
+/* Keyfob container */
+.keyfob-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
-.btn-side {
-  width: 50px;
-  height: 120px;
+.keyfob-container.show {
+    opacity: 1;
+    visibility: visible;
 }
 
-.btn-left {
-  left: 0;
+/* Keyfob device */
+.keyfob-device {
+    width: 400px;
+    max-width: 90vw;
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
 }
 
-.btn-right {
-  right: 0;
+.keyfob-container.show .keyfob-device {
+    transform: scale(1);
 }
 
-.btn-top {
-  width: 80px;
-  height: 100px;
-  left: 60px;
+/* Header */
+.keyfob-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    padding: 20px;
+    color: white;
+    text-align: center;
 }
 
-.btn-circle {
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
-  z-index: 100;
-  left: 73px;
-  top: 33px;
+.vehicle-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.screen {
-  position: absolute;
-  width: 130px;
-  height: 185px;
-  z-index: -1;
-  background-color: rgba(20, 20, 20, 1);
-  bottom: 50px;
-  left: 33px;
+.plate-number {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.screen-page {
-  z-index: 10;
-  margin: 0 auto;
-  max-width: 110px;
-  max-height: 175px;
-  width: 110px;
-  height: 185px;
-  display: flex;
-  flex-wrap: wrap;
-  position: absolute;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  bottom: 55px;
-  left: 44px;
+.vehicle-status {
+    display: flex;
+    gap: 10px;
 }
 
-.window {
-  z-index: 5;
-  color: white;
-  padding: 7px;
+.status-indicator {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s ease;
 }
 
-.window-image {
-  width: 40px;
+.engine-status {
+    background: rgba(255, 255, 255, 0.2);
+    color: #2ecc71;
+}
+
+.engine-status.running {
+    background: #2ecc71;
+    color: white;
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+}
+
+.lock-status {
+    background: rgba(255, 255, 255, 0.2);
+    color: #e74c3c;
+}
+
+.lock-status.locked {
+    background: #e74c3c;
+    color: white;
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+}
+
+/* Main screen */
+.keyfob-screen {
+    padding: 20px;
+    background: #ecf0f1;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Vehicle stats */
+.vehicle-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-item i {
+    font-size: 24px;
+    color: #3498db;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Control buttons */
+.control-buttons {
+    margin-bottom: 20px;
+}
+
+.control-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.control-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    color: #2c3e50;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+.control-btn i {
+    font-size: 20px;
+}
+
+.btn-label {
+    font-size: 12px;
+}
+
+/* Button specific styles */
+.lock-btn {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.unlock-btn {
+    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    color: white;
+}
+
+.engine-btn {
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.alarm-btn {
+    background: linear-gradient(145deg, #9b59b6, #8e44ad);
+    color: white;
+}
+
+.trunk-btn {
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: white;
+}
+
+.hood-btn {
+    background: linear-gradient(145deg, #1abc9c, #16a085);
+    color: white;
+}
+
+/* Door and window controls */
+.door-controls, .window-controls {
+    margin-bottom: 20px;
+}
+
+.door-controls h4, .window-controls h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.door-grid, .window-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.door-btn, .window-btn {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    color: #2c3e50;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.door-btn:hover, .window-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.door-btn:active, .window-btn:active {
+    transform: translateY(0);
+}
+
+.door-btn i, .window-btn i {
+    font-size: 16px;
+}
+
+.door-btn.open, .window-btn.open {
+    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    color: white;
+}
+
+/* Footer */
+.keyfob-footer {
+    padding: 15px 20px;
+    background: #2c3e50;
+    text-align: center;
+}
+
+.close-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.close-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+.close-btn:active {
+    transform: translateY(0);
+}
+
+/* Scrollbar styling */
+.keyfob-screen::-webkit-scrollbar {
+    width: 6px;
+}
+
+.keyfob-screen::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.keyfob-screen::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.keyfob-screen::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .keyfob-device {
+        width: 95vw;
+        margin: 10px;
+    }
+    
+    .plate-number {
+        font-size: 20px;
+    }
+    
+    .control-btn {
+        padding: 12px;
+        font-size: 12px;
+    }
+    
+    .control-btn i {
+        font-size: 16px;
+    }
+    
+    .btn-label {
+        font-size: 10px;
+    }
+    
+    .door-grid, .window-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation classes */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.3s ease-in-out;
+}
+
+/* Disabled state */
+.control-btn:disabled, .door-btn:disabled, .window-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.control-btn:disabled:hover, .door-btn:disabled:hover, .window-btn:disabled:hover {
+    transform: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
